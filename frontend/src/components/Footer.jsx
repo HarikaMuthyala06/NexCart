@@ -1,5 +1,7 @@
 // File: frontend/src/components/Footer.jsx
 
+import { Link } from "react-router-dom";
+
 const Footer = () => {
   return (
     <footer className="bg-gray-800 text-white mt-16">
@@ -21,24 +23,24 @@ const Footer = () => {
             <h4 className="font-semibold mb-3">Quick Links</h4>
             <ul className="space-y-2 text-gray-400 text-sm">
               <li>
-                <a href="/" className="hover:text-orange-400">
+                <Link to="/" className="hover:text-orange-400">
                   Home
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="/cart" className="hover:text-orange-400">
+                <Link to="/cart" className="hover:text-orange-400">
                   Cart
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="/orders" className="hover:text-orange-400">
+                <Link to="/orders" className="hover:text-orange-400">
                   Orders
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="/profile" className="hover:text-orange-400">
+                <Link to="/profile" className="hover:text-orange-400">
                   Profile
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
