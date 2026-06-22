@@ -197,7 +197,7 @@ const CartPage = () => {
           </div>
 
           <button
-            onClick={() => navigate("/orders/place")}
+            onClick={() => navigate("/orders")}
             className="w-full bg-orange-500 text-white py-3 rounded-xl font-semibold mt-6 hover:bg-orange-600 transition"
           >
             Proceed to Checkout →
