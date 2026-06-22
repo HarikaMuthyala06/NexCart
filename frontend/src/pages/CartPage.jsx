@@ -11,7 +11,6 @@ const CartPage = () => {
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  // Fetch cart
   const fetchCart = async () => {
     try {
       const response = await api.get("/cart");
@@ -27,7 +26,6 @@ const CartPage = () => {
     fetchCart();
   }, []);
 
-  // Update quantity
   const handleUpdateQuantity = async (productId, quantity) => {
     try {
       await api.put(`/cart/${productId}`, { quantity });
@@ -37,7 +35,6 @@ const CartPage = () => {
     }
   };
 
-  // Remove item
   const handleRemove = async (productId) => {
     try {
       await api.delete(`/cart/${productId}`);
@@ -47,7 +44,6 @@ const CartPage = () => {
     }
   };
 
-  // Clear cart
   const handleClearCart = async () => {
     if (!window.confirm("Clear entire cart?")) return;
     try {
@@ -67,7 +63,6 @@ const CartPage = () => {
       </div>
     );
 
-  // Empty cart
   if (!cart || cart.items?.length === 0)
     return (
       <div className="container mx-auto px-4 py-16 text-center">
@@ -92,32 +87,31 @@ const CartPage = () => {
       </h1>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* Cart Items */}
         <div className="lg:col-span-2 space-y-4">
           {cart.items?.map((item) => (
             <div
               key={item._id}
               className="bg-white rounded-xl shadow p-4 flex gap-4"
             >
-              {/* Product Image */}
               <img
                 src={item.image || "https://via.placeholder.com/100"}
                 alt={item.name}
                 className="w-24 h-24 object-cover rounded-lg"
               />
 
-              {/* Product Info */}
               <div className="flex-1">
                 <h3 className="font-semibold text-gray-800">{item.name}</h3>
                 <p className="text-orange-500 font-bold text-lg">
                   ₹{item.price?.toLocaleString()}
                 </p>
 
-                {/* Quantity Controls */}
                 <div className="flex items-center gap-2 mt-2">
                   <button
                     onClick={() =>
-                      handleUpdateQuantity(item.product, item.quantity - 1)
+                      handleUpdateQuantity(
+                        item.product?._id || item.product,
+                        item.quantity - 1,
+                      )
                     }
                     disabled={item.quantity <= 1}
                     className="w-8 h-8 bg-gray-100 rounded-full font-bold hover:bg-gray-200 disabled:opacity-50"
@@ -129,7 +123,10 @@ const CartPage = () => {
                   </span>
                   <button
                     onClick={() =>
-                      handleUpdateQuantity(item.product, item.quantity + 1)
+                      handleUpdateQuantity(
+                        item.product?._id || item.product,
+                        item.quantity + 1,
+                      )
                     }
                     className="w-8 h-8 bg-gray-100 rounded-full font-bold hover:bg-gray-200"
                   >
@@ -141,9 +138,9 @@ const CartPage = () => {
                 </div>
               </div>
 
-              {/* Remove Button */}
+              {/* ✅ Fixed Remove Button */}
               <button
-                onClick={() => handleRemove(item.product)}
+                onClick={() => handleRemove(item.product?._id || item.product)}
                 className="text-red-400 hover:text-red-600 transition text-xl"
               >
                 🗑️
@@ -151,7 +148,6 @@ const CartPage = () => {
             </div>
           ))}
 
-          {/* Clear Cart */}
           <button
             onClick={handleClearCart}
             className="text-red-500 hover:underline text-sm"
@@ -160,7 +156,6 @@ const CartPage = () => {
           </button>
         </div>
 
-        {/* Order Summary */}
         <div className="bg-white rounded-xl shadow p-6 h-fit">
           <h2 className="text-xl font-bold text-gray-800 mb-4">
             Order Summary
@@ -196,6 +191,7 @@ const CartPage = () => {
             </div>
           </div>
 
+          {/* ✅ Fixed Checkout Route */}
           <button
             onClick={() => navigate("/orders")}
             className="w-full bg-orange-500 text-white py-3 rounded-xl font-semibold mt-6 hover:bg-orange-600 transition"
